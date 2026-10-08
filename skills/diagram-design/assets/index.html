@@ -147,6 +147,32 @@
         color: var(--paper);
       }
 
+      .lang-toggle {
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        padding: 0.3rem 0.625rem;
+        cursor: pointer;
+        transition:
+          color 0.15s,
+          border-color 0.15s,
+          background 0.15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+      .lang-toggle:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+      html[lang="zh-CN"] .tab.new::after {
+        content: "新";
+      }
+
       main {
         flex: 1 1 auto;
         position: relative;
@@ -184,6 +210,7 @@
           Diagram Design
           <span
             class="meta"
+            id="gallery-meta"
             style="
               font-family: var(--mono);
               font-size: 0.66rem;
@@ -192,8 +219,16 @@
             >· gallery</span
           >
         </h1>
-        <div style="display: flex; gap: 0.5rem">
-          <a class="open-raw" href="icons.html" target="_blank" rel="noopener"
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button
+            class="lang-toggle"
+            id="lang-btn"
+            type="button"
+            title="Switch Language / 切换语言 (EN / 中文)"
+          >
+            🌐 <span id="lang-btn-text">中文</span>
+          </button>
+          <a class="open-raw" id="link-icons" href="icons.html" target="_blank" rel="noopener"
             >icon library ↗</a
           >
           <a
@@ -543,6 +578,254 @@
       bindTabs("type-tabs", "type");
       bindTabs("variant-tabs", "variant");
       update();
+
+      const I18N = {
+        en: {
+          title: "Diagram Design · Gallery",
+          meta: "· gallery",
+          icons: "icon library ↗",
+          openRaw: "open in new tab ↗",
+          langBtn: "中文",
+          typeAria: "Diagram type",
+          variantAria: "Variant",
+          variants: {
+            "": "Minimal light",
+            "-dark": "Minimal dark",
+            "-full": "Full editorial"
+          },
+          types: {
+            "architecture": "Architecture",
+            "flowchart": "Flowchart",
+            "sequence": "Sequence",
+            "state": "State",
+            "state-lifecycle": "State · lifecycle",
+            "er": "ER",
+            "timeline": "Timeline",
+            "swimlane": "Swimlane",
+            "quadrant": "Quadrant",
+            "nested": "Nested",
+            "tree": "Tree",
+            "org-chart": "Org chart",
+            "layers": "Layers",
+            "venn": "Venn",
+            "pyramid": "Pyramid",
+            "radar": "Radar",
+            "polar": "Polar",
+            "loop": "Loop",
+            "datalake": "Data lake",
+            "bar": "Bar",
+            "waterfall": "Waterfall",
+            "line": "Line",
+            "gantt": "Gantt",
+            "scatter": "Scatter",
+            "bubble": "Scatter · bubble",
+            "beeswarm": "Scatter · beeswarm",
+            "medallion": "Medallion",
+            "high-level": "High-Level",
+            "process": "Process",
+            "data-flow": "Data flow",
+            "dp-integration": "DP integration",
+            "high-level-vertical": "High-Level / Parametric",
+            "treemap": "Treemap",
+            "heatmap": "Heatmap",
+            "marimekko": "Marimekko",
+            "slopegraph": "Line · slopegraph",
+            "ridgeline": "Line · ridgeline",
+            "streamgraph": "Line · streamgraph",
+            "bump": "Line · bump",
+            "dp-security-matrix": "DP security matrix",
+            "it-state": "IT current-state",
+            "sankey": "Sankey",
+            "fishbone": "Fishbone",
+            "wardley": "Wardley map",
+            "kanban": "Kanban",
+            "journey": "User journey",
+            "deployment": "Deployment",
+            "dependency": "Dependency graph",
+            "uml-class": "UML class",
+            "story-map": "Story map",
+            "db-schema": "Database schema",
+            "sequence-oauth": "Sequence · OAuth",
+            "import-drawio": "Import · draw.io",
+            "import-mermaid": "Import · Mermaid",
+            "quadrant-consultant": "Quadrant · consultant",
+            "loop-terminal": "Loop · terminal",
+            "policy-trace-animated": "Policy trace · animated",
+            "queue-animated": "Fan-in queue · animated",
+            "paved-road-animated": "Secure paved road · animated",
+            "tree-block-decomposition": "Tree · block decomposition",
+            "import-excalidraw": "Import · Excalidraw",
+            "architecture-delta": "Architecture delta",
+            "exploded": "Exploded axonometric",
+            "exploded-phone": "Exploded · phone",
+            "exploded-unboxing": "Exploded · unboxing",
+            "exploded-ai-stack": "Exploded · AI agent stack",
+            "exploded-keyboard": "Exploded · keyboard",
+            "exploded-phone-animated": "Exploded · phone, animated",
+            "exploded-unboxing-animated": "Exploded · unboxing, animated",
+            "exploded-ai-stack-animated": "Exploded · AI agent stack, animated",
+            "exploded-keyboard-animated": "Exploded · keyboard, animated",
+            "axonometric-plan": "Axonometric plan",
+            "axonometric-plan-campus": "Axonometric plan · campus",
+            "axonometric-plan-coffee-shop": "Axonometric plan · coffee shop",
+            "axonometric-plan-warehouse": "Axonometric plan · warehouse",
+            "axonometric-plan-campus-animated": "Axonometric plan · campus, animated",
+            "axonometric-plan-coffee-shop-animated": "Axonometric plan · coffee shop, animated",
+            "axonometric-plan-warehouse-animated": "Axonometric plan · warehouse, animated"
+          }
+        },
+        zh: {
+          title: "Diagram Design · 图表展厅",
+          meta: "· 示例展厅",
+          icons: "图标库 ↗",
+          openRaw: "新标签页打开 ↗",
+          langBtn: "English",
+          typeAria: "图表类型",
+          variantAria: "视觉样式",
+          variants: {
+            "": "极简浅色",
+            "-dark": "极简深色",
+            "-full": "完整编辑版"
+          },
+          types: {
+            "architecture": "架构图",
+            "flowchart": "流程图",
+            "sequence": "时序图",
+            "state": "状态图",
+            "state-lifecycle": "状态机 · 生命周期",
+            "er": "实体关系 ER",
+            "timeline": "时间线",
+            "swimlane": "泳道图",
+            "quadrant": "四象限图",
+            "nested": "嵌套结构图",
+            "tree": "树状图",
+            "org-chart": "组织架构图",
+            "layers": "分层架构",
+            "venn": "韦恩图",
+            "pyramid": "金字塔/漏斗",
+            "radar": "雷达图",
+            "polar": "极坐标图",
+            "loop": "环形/飞轮图",
+            "datalake": "数据湖架构",
+            "bar": "柱状图",
+            "waterfall": "瀑布图",
+            "line": "折线图",
+            "gantt": "甘特图",
+            "scatter": "散点图",
+            "bubble": "散点 · 气泡图",
+            "beeswarm": "散点 · 蜂群图",
+            "medallion": "奖章架构 (Medallion)",
+            "high-level": "高层系统图",
+            "process": "过程/管道流",
+            "data-flow": "数据流图 (DFD)",
+            "dp-integration": "数据产品集成",
+            "high-level-vertical": "高层/参数化架构",
+            "treemap": "矩形树图",
+            "heatmap": "热力图",
+            "marimekko": "市场结构图 (Marimekko)",
+            "slopegraph": "折线 · 坡度图",
+            "ridgeline": "折线 · 山脊线图",
+            "streamgraph": "折线 · 河流图",
+            "bump": "折线 · 凹凸图",
+            "dp-security-matrix": "数据安全矩阵",
+            "it-state": "IT 现状图",
+            "sankey": "桑基图",
+            "fishbone": "因果鱼骨图",
+            "wardley": "沃德利地图 (Wardley)",
+            "kanban": "看板图",
+            "journey": "用户旅程图",
+            "deployment": "部署拓扑图",
+            "dependency": "依赖拓扑图",
+            "uml-class": "UML 类图",
+            "story-map": "用户故事地图",
+            "db-schema": "数据库模式图",
+            "sequence-oauth": "时序 · OAuth 认证",
+            "import-drawio": "导入 · draw.io",
+            "import-mermaid": "导入 · Mermaid",
+            "quadrant-consultant": "咨询顾问四象限",
+            "loop-terminal": "终端交互环",
+            "policy-trace-animated": "策略追踪 · 动效",
+            "queue-animated": "扇入队列 · 动效",
+            "paved-road-animated": "安全通途 · 动效",
+            "tree-block-decomposition": "模块分解树",
+            "import-excalidraw": "导入 · Excalidraw",
+            "architecture-delta": "架构演进对比 (Delta)",
+            "exploded": "轴测爆炸分解图",
+            "exploded-phone": "爆炸图 · 手机硬件",
+            "exploded-unboxing": "爆炸图 · 包装开箱",
+            "exploded-ai-stack": "爆炸图 · AI Agent 栈",
+            "exploded-keyboard": "爆炸图 · 机械键盘",
+            "exploded-phone-animated": "爆炸图 · 手机动效",
+            "exploded-unboxing-animated": "爆炸图 · 开箱动效",
+            "exploded-ai-stack-animated": "爆炸图 · AI 栈动效",
+            "exploded-keyboard-animated": "爆炸图 · 键盘动效",
+            "axonometric-plan": "轴测平面图",
+            "axonometric-plan-campus": "轴测平面 · 园区",
+            "axonometric-plan-coffee-shop": "轴测平面 · 咖啡店",
+            "axonometric-plan-warehouse": "轴测平面 · 仓库",
+            "axonometric-plan-campus-animated": "轴测平面 · 园区动效",
+            "axonometric-plan-coffee-shop-animated": "轴测平面 · 咖啡店动效",
+            "axonometric-plan-warehouse-animated": "轴测平面 · 仓库动效"
+          }
+        }
+      };
+
+      let currentLang =
+        localStorage.getItem("diagram-design-lang") ||
+        (navigator.language && navigator.language.startsWith("zh") ? "zh" : "en");
+
+      function applyLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem("diagram-design-lang", lang);
+        document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+        document.title = I18N[lang].title;
+
+        const metaEl = document.getElementById("gallery-meta");
+        if (metaEl) metaEl.textContent = I18N[lang].meta;
+
+        const iconsEl = document.getElementById("link-icons");
+        if (iconsEl) iconsEl.textContent = I18N[lang].icons;
+
+        const openRawEl = document.getElementById("open-raw");
+        if (openRawEl) openRawEl.textContent = I18N[lang].openRaw;
+
+        const btnTextEl = document.getElementById("lang-btn-text");
+        if (btnTextEl) btnTextEl.textContent = I18N[lang].langBtn;
+
+        const typeTabsCont = document.getElementById("type-tabs");
+        if (typeTabsCont) typeTabsCont.setAttribute("aria-label", I18N[lang].typeAria);
+
+        const varTabsCont = document.getElementById("variant-tabs");
+        if (varTabsCont) varTabsCont.setAttribute("aria-label", I18N[lang].variantAria);
+
+        document.querySelectorAll("#type-tabs .tab").forEach((tab) => {
+          const t = tab.dataset.type;
+          const eyebrow = tab.querySelector(".eyebrow");
+          const label = I18N[lang].types[t] || I18N.en.types[t] || t;
+          for (const node of Array.from(tab.childNodes)) {
+            if (node !== eyebrow) node.remove();
+          }
+          tab.appendChild(document.createTextNode(label));
+          tab.title = lang === "zh" ? (I18N.en.types[t] || "") : (I18N.zh.types[t] || "");
+        });
+
+        document.querySelectorAll("#variant-tabs .tab").forEach((tab) => {
+          const v = tab.dataset.variant;
+          if (I18N[lang].variants[v] !== undefined) {
+            tab.textContent = I18N[lang].variants[v];
+            tab.title = lang === "zh" ? (I18N.en.variants[v] || "") : (I18N.zh.variants[v] || "");
+          }
+        });
+      }
+
+      const langBtn = document.getElementById("lang-btn");
+      if (langBtn) {
+        langBtn.addEventListener("click", () => {
+          applyLanguage(currentLang === "zh" ? "en" : "zh");
+        });
+      }
+
+      applyLanguage(currentLang);
     </script>
   </body>
 </html>

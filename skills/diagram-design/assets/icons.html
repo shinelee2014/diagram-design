@@ -28,6 +28,32 @@
     }
     .container { max-width: 1200px; margin: 0 auto; }
     .header { margin-bottom: 2.5rem; }
+    .lang-toggle {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.06em;
+      color: var(--color-muted);
+      background: transparent;
+      border: 1px solid var(--color-rule);
+      border-radius: 4px;
+      padding: 0.3rem 0.625rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.15s, border-color 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .lang-toggle:hover {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
     .eyebrow {
       font-family: var(--font-mono);
       font-size: 0.66rem;
@@ -107,9 +133,17 @@
 <body>
   <div class="container">
     <div class="header">
-      <p class="eyebrow">Icons · Diagram Design</p>
-      <h1>Icon library</h1>
-      <p class="subtitle">A small, monochrome library for IT/cloud illustrations. Stroked icons from <a href="https://tabler.io/icons" style="color:inherit">Tabler Icons</a> (MIT); brand silhouettes from <a href="https://simpleicons.org" style="color:inherit">Simple Icons</a> (CC0). Every icon uses <code>currentColor</code> so it inherits ink from its parent.</p>
+      <div class="header-top">
+        <p class="eyebrow" id="icons-eyebrow" style="margin-bottom: 0;">Icons · Diagram Design</p>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <a class="lang-toggle" id="link-gallery" href="index.html">← gallery</a>
+          <button class="lang-toggle" id="lang-btn" type="button" title="Switch Language / 切换语言">
+            🌐 <span id="lang-btn-text">中文</span>
+          </button>
+        </div>
+      </div>
+      <h1 id="icons-title">Icon library</h1>
+      <p class="subtitle" id="icons-subtitle">A small, monochrome library for IT/cloud illustrations. Stroked icons from <a href="https://tabler.io/icons" style="color:inherit">Tabler Icons</a> (MIT); brand silhouettes from <a href="https://simpleicons.org" style="color:inherit">Simple Icons</a> (CC0). Every icon uses <code>currentColor</code> so it inherits ink from its parent.</p>
     </div>
     <section class="cat"><h2>Compute</h2><div class="grid">
 <div class="cell"><div class="icon"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l18 0" /> <path d="M5 7a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v8a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1l0 -8" /></svg></div><div class="name">laptop</div></div>
@@ -226,5 +260,93 @@
       Tabler Icons · MIT · github.com/tabler/tabler-icons &nbsp;·&nbsp; Simple Icons · CC0 · github.com/simple-icons/simple-icons &nbsp;·&nbsp; Devicon · MIT · github.com/devicons/devicon
     </footer>
   </div>
+  <script>
+    const I18N = {
+      en: {
+        eyebrow: "Icons · Diagram Design",
+        title: "Icon library",
+        subtitle: 'A small, monochrome library for IT/cloud illustrations. Stroked icons from <a href="https://tabler.io/icons" style="color:inherit">Tabler Icons</a> (MIT); brand silhouettes from <a href="https://simpleicons.org" style="color:inherit">Simple Icons</a> (CC0). Every icon uses <code>currentColor</code> so it inherits ink from its parent.',
+        galleryLink: "← gallery",
+        langBtn: "中文",
+        categories: {
+          "Compute": "Compute",
+          "People": "People",
+          "Network": "Network",
+          "Data": "Data",
+          "Kubernetes": "Kubernetes",
+          "Action": "Action",
+          "DevOps": "DevOps",
+          "Brand": "Brand",
+          "Data stack": "Data stack",
+          "Language": "Language",
+          "Statistical tools": "Statistical tools",
+          "File formats": "File formats"
+        }
+      },
+      zh: {
+        eyebrow: "图标库 · Diagram Design",
+        title: "图标库",
+        subtitle: '为 IT 与云架构可视化设计的单色矢量图标库。描边图标源自 <a href="https://tabler.io/icons" style="color:inherit">Tabler Icons</a> (MIT)，品牌图标源自 <a href="https://simpleicons.org" style="color:inherit">Simple Icons</a> (CC0)。所有图标均使用 <code>currentColor</code> 自动继承父级墨色。',
+        galleryLink: "← 返回展厅",
+        langBtn: "English",
+        categories: {
+          "Compute": "计算 (Compute)",
+          "People": "角色与用户 (People)",
+          "Network": "网络通信 (Network)",
+          "Data": "数据与存储 (Data)",
+          "Kubernetes": "Kubernetes 生态",
+          "Action": "操作与交互 (Action)",
+          "DevOps": "DevOps 运维",
+          "Brand": "品牌与平台 (Brand)",
+          "Data stack": "大数据栈 (Data stack)",
+          "Language": "编程语言 (Language)",
+          "Statistical tools": "统计分析工具 (Statistical tools)",
+          "File formats": "文件格式 (File formats)"
+        }
+      }
+    };
+
+    let currentLang =
+      localStorage.getItem("diagram-design-lang") ||
+      (navigator.language && navigator.language.startsWith("zh") ? "zh" : "en");
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem("diagram-design-lang", lang);
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+
+      const eyebrow = document.getElementById("icons-eyebrow");
+      if (eyebrow) eyebrow.textContent = I18N[lang].eyebrow;
+
+      const title = document.getElementById("icons-title");
+      if (title) title.textContent = I18N[lang].title;
+
+      const sub = document.getElementById("icons-subtitle");
+      if (sub) sub.innerHTML = I18N[lang].subtitle;
+
+      const gal = document.getElementById("link-gallery");
+      if (gal) gal.textContent = I18N[lang].galleryLink;
+
+      const btnText = document.getElementById("lang-btn-text");
+      if (btnText) btnText.textContent = I18N[lang].langBtn;
+
+      document.querySelectorAll(".cat h2").forEach((h2) => {
+        const enKey = h2.getAttribute("data-key") || h2.textContent.trim();
+        if (!h2.getAttribute("data-key")) h2.setAttribute("data-key", enKey);
+        if (I18N[lang].categories[enKey]) {
+          h2.textContent = I18N[lang].categories[enKey];
+        }
+      });
+    }
+
+    const langBtn = document.getElementById("lang-btn");
+    if (langBtn) {
+      langBtn.addEventListener("click", () => {
+        applyLanguage(currentLang === "zh" ? "en" : "zh");
+      });
+    }
+
+    applyLanguage(currentLang);
+  </script>
 </body>
 </html>
